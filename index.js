@@ -14,6 +14,8 @@ async function run() {
     const octokit = new github.GitHub(myToken);
     const context = github.context;
 
+    console.log(github.context);
+    debugger;
     console.log("finishing");
 }
 
