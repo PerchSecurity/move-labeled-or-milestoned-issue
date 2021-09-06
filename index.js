@@ -3,6 +3,8 @@ const core = require("@actions/core");
 const graphql = require("@octokit/graphql");
 
 async function run() {
+    console.log("starting");
+
     const myToken = core.getInput("action-token");
     const projectUrl = core.getInput("project-url");
     const columnName = core.getInput("column-name");
@@ -12,6 +14,10 @@ async function run() {
     const octokit = new github.GitHub(myToken);
     const context = github.context;
 
+    console.log("finishing");
+}
+
+async function run2() {
     if(!milestoneName && !labelName){
         throw new Error("one of label-name and milestone-name must be set");
     }
@@ -58,7 +64,7 @@ async function run() {
         if (ignoreList){
             skip = ignoreList.split(",");
         }
-        
+
         if (cardId != null && (ignoreList == "*" || skip.includes(currentColumn))){
             // card is present in a column that we want to ignore, don't move or do anything
             return `Card exists for issue in column ${currentColumn}. Column specified to be ignored, not moving issue.`;
@@ -239,7 +245,7 @@ async function getRepoInformation(repositoryOwner, repositoryName, projectNumber
                             }
                         }
                     }
-                }        
+                }
             }`, {
             ownerVariable: repositoryOwner,
             nameVariable: repositoryName,
@@ -254,8 +260,8 @@ async function getRepoInformation(repositoryOwner, repositoryName, projectNumber
 run()
     .then(
         (response) => { console.log(`Finished running: ${response}`); },
-        (error) => { 
+        (error) => {
             console.log(`#ERROR# ${error}`);
-            process.exit(1); 
+            process.exit(1);
         }
     );
